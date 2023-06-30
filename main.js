@@ -11,7 +11,7 @@ Hooks.once("init", async () => {
 
 
 Hooks.on("chatMessage", (html, content, msg) => {
-    let aff2 = game.settings.get("fvtt-ja", "aff2");
+    let aff2 = game.settings.get("aff2-ja", "aff2");
     if (aff2) {
         // Setup new message's visibility
         let rollMode = game.settings.get("core", "rollMode");
