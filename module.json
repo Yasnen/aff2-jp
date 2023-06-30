@@ -1,1 +1,22 @@
-
+{
+  "id": "aff2-jp",
+  "title": "AFF2e-JP",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "description": "Advanced Fighting Fantasy 2eをFVTTで遊ぶ用。",
+  "authors": [
+    {
+      "name": "MRyas",
+      "discord": "mryasjp"
+    }
+  ],
+  "esmodules": [
+    "main.js"
+  ],
+  "url": "https://github.com",
+  "download": "https://github.com/Yasnen/aff2-jp/archive/refs/heads/main.zip",
+  "manifest": "https://raw.githubusercontent.com/Yasnen/aff2-jp/main/module.json"
+}
