@@ -1,5 +1,5 @@
 Hooks.once("init", async () => {
-    game.settings.register("aff2-ja", "UseAff2Command", {
+    game.settings.register("aff2-jp", "UseAff2Command", {
         name: "Aff2 コマンド",
         hint: "Aff2 で使うコマンドをeval※関数を使って実装「/aff2」で簡易ヘルプを表示。※eval関数を使用しているので取り扱い要注意",
         type: Boolean,
@@ -11,7 +11,7 @@ Hooks.once("init", async () => {
 
 
 Hooks.on("chatMessage", (html, content, msg) => {
-    let aff2 = game.settings.get("aff2-ja", "aff2");
+    let aff2 = game.settings.get("aff2-jp", "UseAff2Command");
     if (aff2) {
         // Setup new message's visibility
         let rollMode = game.settings.get("core", "rollMode");
