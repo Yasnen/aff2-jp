@@ -1,7 +1,7 @@
 {
   "id": "aff2-jp",
   "title": "AFF2e-JP",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": {
     "minimum": "11",
     "verified": "11"
