@@ -1,7 +1,7 @@
 Hooks.once("init", async () => {
     game.settings.register("aff2-jp", "UseAff2Command", {
-        name: "Aff2 コマンド",
-        hint: "Aff2 で使うコマンドをeval※関数を使って実装「/aff2」で簡易ヘルプを表示。※eval関数を使用しているので取り扱い要注意",
+        name: "Aff コマンド",
+        hint: "Aff で使うコマンドをeval※関数を使って実装「/aff」で簡易ヘルプを表示。※eval関数を使用しているので取り扱い要注意",
         type: Boolean,
         scope: 'world',
         default: false,
@@ -11,8 +11,8 @@ Hooks.once("init", async () => {
 
 
 Hooks.on("chatMessage", (html, content, msg) => {
-    let aff2 = game.settings.get("aff2-jp", "UseAff2Command");
-    if (aff2) {
+    let aff = game.settings.get("aff2-jp", "UseAff2Command");
+    if (aff) {
         // Setup new message's visibility
         let rollMode = game.settings.get("core", "rollMode");
         if (["gmroll", "blindroll"].includes(rollMode)) msg["whisper"] = ChatMessage.getWhisperRecipients("GM").map(u => u.id);
@@ -21,7 +21,11 @@ Hooks.on("chatMessage", (html, content, msg) => {
         let regExp;
         regExp = /(\S+)/g;
         let commands = content.match(regExp);
-        if (commands[0] === "/aff2") {
+
+        // ここにコメント取得ソースを入れる
+        // if (commands[Array.length - 1] === "")
+
+        if (commands[0] === "/aff") {
             if (commands[1] === "ft") {
                 let dice1 = Math.floor(Math.random() * 5) + 1;
                 let dice2 = Math.floor(Math.random() * 5) + 1;
@@ -30,7 +34,7 @@ Hooks.on("chatMessage", (html, content, msg) => {
                     let value = eval(commands[2]);
                     let result = "失敗";
                     if (dice < value) { result = "成功" }
-                    msg.content = `<b>${result}</b>：2d6=${dice}(${dice1}+${dice2})＜${value}(${commands[2]})`;
+                    msg.content = `<b>${result}：</b>${value} (${commands[2]}) > <b>${dice}</b> = 2d6 ( ${dice1} + ${dice2} )`;
                     ChatMessage.create(msg);
                     return false
                 }
@@ -41,14 +45,14 @@ Hooks.on("chatMessage", (html, content, msg) => {
                     let value = eval(commands[2]);
                     let dice = dice1 + dice2 + value;
                     if (dice < value) { result = "成功" }
-                    msg.content = `<b>結果</b>：2d6(${dice1}+${dice2})+${commands[2]}=${dice}`;
+                    msg.content = `<b>結果：${dice}</b> = 2d6 ( ${dice1} + ${dice2} ) + ${commands[2]}`;
                     ChatMessage.create(msg);
                     return false
                 }
 
                 return false
             } else if (commands[1] === "fr") {
-                // /aff2 fr [1,2,3,4,5,6,7]
+                // /aff fr [1,2,3,4,5,6,7]
                 if (commands[2] !== undefined) {
                     if (commands[2].substr(0, 1) === '[') {
                         let dice = Math.floor(Math.random() * 5);
@@ -66,10 +70,10 @@ Hooks.on("chatMessage", (html, content, msg) => {
                             retVal = retArr[dice1]
                         }
                         if (mod === "") {
-                            msg.content = `${commands[2]} 1d6(${dice + 1})</ br><b>結果</b>：${retVal}`;
+                            msg.content = `<b>結果：${retVal}</b> = 1d6(${dice + 1}) ${commands[2]}</ br>`;
                             ChatMessage.create(msg);
                         } else {
-                            msg.content = `${commands[2]} 1d6(${dice + 1}) + ${mod}</ br><b>結果</b>：${retVal}`;
+                            msg.content = `<b>結果：${retVal}</b> = 1d6(${dice + 1}) ${mod} ${commands[2]}</ br>`;
                             ChatMessage.create(msg);
                         }
                         return false;
@@ -77,7 +81,7 @@ Hooks.on("chatMessage", (html, content, msg) => {
                 }
             }
 
-            msg.content = `「/aff2 ft 数式」⇒2d6<数式で成功<br />「/aff2 fo 数式」⇒2d6+数式を返す<br />「/aff2 fr [数式1,数式2,...,数式n] 数式x」⇒(1d6+数式x)番目の数式を返す`;
+            msg.content = `書式：/aff オプション 引数<br>通常ロール：ft {目標値}<br />対抗ロール：fo {数値}+{修正値}<br />レート表：fr [数式1,数式2,...,数式7] {修正値}`;
             ChatMessage.create(msg);
             return false
         }
